@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>STANDLEO</title>
+<style>
+  html,body{height:100%;margin:0;background:#000;overflow:hidden}
+  canvas{display:block;width:100%;height:100%}
+  .hint{position:fixed;left:12px;bottom:10px;color:#0f0;font-family:monospace;font-size:12px;opacity:0.8}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="hint">STANDLEO</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; cols = Math.floor(canvas.width/16); ypos.length = 0; for(let i=0;i<cols;i++) ypos.push(0); }
+let cols = 0; const ypos = [];
+resize(); window.addEventListener('resize', resize);
+let running = true;
+function loop(){
+  ctx.fillStyle='rgba(0,0,0,0.08)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#0f0';
+  ctx.font='14px monospace';
+  for(let i=0;i<ypos.length;i++){
+    const text = String.fromCharCode(33 + Math.random()*94);
+    const x = i*16;
+    ctx.fillText(text, x, ypos[i]);
+    if(ypos[i] > 100 + Math.random()*10000) ypos[i] = 0;
+    else ypos[i] = ypos[i] + 14;
+  }
+  if(running) requestAnimationFrame(loop);
+}
+loop();
+// Переход через ~5–7 секунд
+setTimeout(()=> { running=false; location.href='page5.html'; }, 5200 + Math.random()*1800);
+</script>
+</body>
+</html>
